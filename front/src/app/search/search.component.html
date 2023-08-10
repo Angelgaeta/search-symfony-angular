@@ -1,0 +1,25 @@
+<div class="search-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onsubmitSearchForm()">
+    <input
+      type="text"
+      formControlName="lieu"
+      placeholder="Rechercher par lieu"
+    />
+    <br /><br />
+    <input
+      type="text"
+      formControlName="event"
+      placeholder="Rechercher par événément"
+    />
+    <br /><br />
+    <button type="submit">Rechercher</button>
+  </form>
+
+  <div class="results-container" *ngIf="searchResults.length > 0">
+    <br /><br />
+    <h2>Résultats de la recherche :</h2>
+    <ul>
+      <li *ngFor="let result of searchResults">{{ result }}</li>
+    </ul>
+  </div>
+</div>
