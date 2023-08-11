@@ -42,7 +42,7 @@ Le composant utilise Angular Forms et HttpClient pour fonctionner. Assurez-vous 
 
 ## Auteur
 
-Ce composant a été créé par [Angel R.].
+Ce composant a été créé par [ Angel R. ].
 
 ## Remarque
 
