@@ -62,6 +62,23 @@ export class SearchComponent implements OnInit {
 
     // Réinitialiser la variable d'erreur
     this.error = false;
+
+    // Si le champ "lieu" est renseigné et que le champ "événement" est vide, affichez tous les événements de cette ville
+    if (searchLieu && !searchEvent) {
+      const eventsInCity = this.test.filter((el) => el.city === searchLieu);
+      console.log('Événements dans la ville:', eventsInCity);
+      return;
+    }
+
+    // Si le champ "lieu" est vide mais que le champ "événement" est renseigné, affichez l'événement spécifié peu importe la ville
+    if (!searchLieu && searchEvent) {
+      const specificEvent = this.test.filter(
+        (el) => el.eventName === searchEvent
+      );
+      console.log('Événements spécifiques:', specificEvent);
+      return;
+    }
+
     // Recherche d'un événement correspondant au nom de recherche
     let foundEvent = this.test.find((el) => el.eventName === searchEvent);
 
