@@ -15,7 +15,6 @@ export class SearchComponent implements OnInit {
   error: boolean = false;
   test: any[] = []; // Tableau pour stocker les données JSON
   searchResults: string[] = []; // Tableau pour stocker les résultats de la recherche
-
   private _jsonUrl = 'assets/db.json'; // URL du fichier JSON
 
   constructor(
@@ -33,7 +32,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.initsearchForm(); // Initialisation du formulaire de recherche
     this.getJSON().subscribe((data) => {
-      this.test = data; // Remplacement de la boucle for par une simple assignation des données JSON
+      this.test = data; // Chargement des données JSON
     });
   }
 
@@ -42,8 +41,8 @@ export class SearchComponent implements OnInit {
    */
   initsearchForm(): void {
     this.searchForm = this.formBuilder.group({
-      lieu: ['', Validators.required], // Champ "lieu" avec validation requise
-      event: ['', Validators.required], // Champ "event" avec validation requise
+      lieu: [''], // Champ "lieu" avec validation requise
+      event: [''], // Champ "event" avec validation requise
     });
   }
 
@@ -51,47 +50,44 @@ export class SearchComponent implements OnInit {
    * Gestion de la soumission du formulaire de recherche
    */
   onsubmitSearchForm(): void {
-    let searchLieu = this.searchForm.value.lieu; // Récupération de la valeur de recherche
-    let searchEvent = this.searchForm.value.event;
+    // Récupération des valeurs de recherche pour le lieu et l'événement
+    const searchLieu = this.searchForm.value.lieu; // Valeur du champ "lieu"
+    const searchEvent = this.searchForm.value.event; // Valeur du champ "event"
 
-    if (searchLieu || searchEvent) {
-      // Si au moins un des deux champs est rempli
-      const results: string[] = [];
+    // Vérification si les deux champs sont vides
+    if (!searchLieu && !searchEvent) {
+      this.error = true; // Définir la variable d'erreur sur true
+      return; // Si les deux champs sont vides, on ne fait rien
+    }
 
-      for (let item of this.test) {
-        let cityFound = false; // Variable pour vérifier si une ville correspondante a été trouvée
-        let eventFound = false;
+    // Réinitialiser la variable d'erreur
+    this.error = false;
+    // Recherche d'un événement correspondant au nom de recherche
+    let foundEvent = this.test.find((el) => el.eventName === searchEvent);
 
-        if (item.city === searchLieu) {
-          console.log(item.name);
-          cityFound = true;
-        }
-        if (item.name === searchEvent || searchEvent === null) {
-          console.log(item.name);
-          eventFound = true;
-          // Vérifie si la valeur des deux éléments sont égaux ou non
-          // cityFound = true; // Une ville correspondante a été trouvée, alors on vérifie l'événement
-          // if (event.name === searchEvent){
-          // }
-          // results.push(city.name);
+    // Filtre des événements correspondant à la ville de recherche
+    let foundCity = this.test.filter((el) => el.city === searchLieu);
 
-          // Sortir de la boucle intérieure une fois qu'une ville est trouvée
-
-          // if (!searchEvent || this.eventExists(city, searchEvent)) {
-          //   // Si l'événement n'est pas spécifié ou s'il existe dans la ville
-          //   results.push(city.name);
-        }
-        if ((cityFound = false) && (eventFound = false)) {
-          console.log('Veuillez faire votre recherche');
-        }
-
-        // break;
+    // Vérification si les deux champs sont non vides
+    if (searchLieu && searchEvent) {
+      // Conditions pour déterminer le résultat en fonction des recherches
+      if (foundEvent && foundCity.length) {
+        // Si un événement est trouvé ET des événements dans la ville sont trouvés
+        console.log(foundEvent);
+        alert('cas 1');
+      } else if (!foundEvent && foundCity.length) {
+        // Si aucun événement n'est trouvé, mais des événements dans la ville sont trouvés
+        console.log(foundCity);
+        alert('cas 2');
+      } else if (foundEvent && !foundCity.length) {
+        // Si un événement est trouvé, mais aucun événement dans la ville n'est trouvé
+        console.log(foundEvent);
+        alert('cas 3');
+      } else {
+        // Si ni un événement ni des événements dans la ville ne sont trouvés
+        console.log('pas de résultat');
+        alert('cas 4');
       }
     }
   }
 }
-
-//       this.searchResults = results;
-//     }
-//   }
-// }

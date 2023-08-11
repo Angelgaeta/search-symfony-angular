@@ -1,10 +1,21 @@
 [
   {
-    "name": "Stage1",
+    "eventName": "Stage1",
+
     "city": "Montpellier"
   },
   {
-    "name": "Stage2",
+    "eventName": "Stage2",
     "city": "Nime"
+  },
+  {
+    "eventName": "Stage5",
+
+    "city": "Montpellier"
+  },
+  {
+    "eventName": "Stage3",
+
+    "city": "Montpellier"
   }
 ]

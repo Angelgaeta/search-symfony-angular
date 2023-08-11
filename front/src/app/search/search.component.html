@@ -22,4 +22,8 @@
       <li *ngFor="let result of searchResults">{{ result }}</li>
     </ul>
   </div>
+
+  <div *ngIf="error" class="error-message">
+    Les champs doivent être remplis pour effectuer une recherche.
+  </div>
 </div>
